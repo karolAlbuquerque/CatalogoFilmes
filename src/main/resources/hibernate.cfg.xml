@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configurações do banco de dados -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/catalogo_filmes</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">postgres</property>
+
+        <!-- Configurações do Hibernate -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.current_session_context_class">thread</property>
+        
+        <!-- Configuração de pacotes -->
+        <property name="hibernate.archive.autodetection">class</property>
+        <property name="hibernate.ejb.interceptor">org.hibernate.EmptyInterceptor</property>
+
+        <!-- Mapeamento das entidades -->
+        <mapping package="org.example.model"/>
+        <mapping class="org.example.model.Filme"/>
+        <mapping class="org.example.model.Ator"/>
+        <mapping class="org.example.model.Diretor"/>
+        <mapping class="org.example.model.Genero"/>
+        <mapping class="org.example.model.Avaliacao"/>
+        <mapping class="org.example.model.Usuario"/>
+    </session-factory>
+</hibernate-configuration> 

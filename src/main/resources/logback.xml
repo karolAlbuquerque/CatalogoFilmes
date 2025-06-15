@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Desabilitar completamente os logs do Hibernate -->
+    <logger name="org.hibernate" level="OFF"/>
+    <logger name="org.hibernate.SQL" level="OFF"/>
+    <logger name="org.hibernate.type.descriptor.sql" level="OFF"/>
+    <logger name="org.hibernate.type" level="OFF"/>
+    <logger name="org.hibernate.engine" level="OFF"/>
+    <logger name="org.hibernate.persister" level="OFF"/>
+    <logger name="org.hibernate.loader" level="OFF"/>
+    <logger name="org.hibernate.hql" level="OFF"/>
+    <logger name="org.hibernate.jdbc" level="OFF"/>
+    
+    <!-- Desabilitar logs do HikariCP -->
+    <logger name="com.zaxxer.hikari" level="OFF"/>
+    
+    <!-- Desabilitar logs do SLF4J -->
+    <logger name="org.slf4j" level="OFF"/>
+    
+    <!-- Desabilitar logs do JPA -->
+    <logger name="jakarta.persistence" level="OFF"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration> 
