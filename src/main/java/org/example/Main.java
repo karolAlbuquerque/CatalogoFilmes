@@ -5,6 +5,7 @@ import org.example.model.*;
 import org.example.util.HibernateUtil;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class Main {
         do {
             exibirMenu();
             opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha
+            scanner.nextLine();
 
             switch (opcao) {
                 case 1 -> cadastrarFilme(scanner);
@@ -45,6 +46,7 @@ public class Main {
                 case 10 -> listarGeneros();
                 case 11 -> listarUsuarios();
                 case 12 -> listarAvaliacoes();
+                case 13 -> deletarFilme(scanner);
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -52,6 +54,48 @@ public class Main {
 
         scanner.close();
         HibernateUtil.shutdown();
+    }
+
+    private static void deletarFilme(Scanner scanner) {
+        System.out.println("\n=== DELETAR FILME ===");
+        System.out.print("Digite o ID do filme a ser deletado: ");
+        Long filmeId = scanner.nextLong();
+        scanner.nextLine(); // Consumir a quebra de linha
+
+        EntityManager em = HibernateUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            
+
+            em.createQuery("DELETE FROM Avaliacao a WHERE a.filme.id = :filmeId")
+              .setParameter("filmeId", filmeId)
+              .executeUpdate();
+            
+
+            Filme filme = em.find(Filme.class, filmeId);
+            if (filme != null) {
+
+                filme.getAtores().clear();
+                filme.getGeneros().clear();
+                em.flush();
+                
+
+                em.remove(filme);
+                em.getTransaction().commit();
+                System.out.println("✅ Filme deletado com sucesso!");
+            } else {
+                System.out.println("❌ Filme não encontrado!");
+                em.getTransaction().rollback();
+            }
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            System.out.println("❌ Erro ao deletar filme: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
     }
 
     private static void exibirMenu() {
@@ -68,6 +112,7 @@ public class Main {
         System.out.println("10. Listar Gêneros");
         System.out.println("11. Listar Usuários");
         System.out.println("12. Listar Avaliações");
+        System.out.println("13. Deletar Filme");
         System.out.println("0. Sair");
         System.out.print("Escolha uma opção: ");
     }

@@ -35,7 +35,7 @@ public class Filme {
     private Set<Avaliacao> avaliacoes = new HashSet<>();
 
     // Relacionamento N:M com Ator (Agregação)
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(
         name = "filme_ator",
         joinColumns = @JoinColumn(name = "filme_id"),
@@ -44,7 +44,7 @@ public class Filme {
     private Set<Ator> atores = new HashSet<>();
 
     // Relacionamento N:M com Genero
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(
         name = "filme_genero",
         joinColumns = @JoinColumn(name = "filme_id"),
@@ -53,7 +53,7 @@ public class Filme {
     private Set<Genero> generos = new HashSet<>();
 
     // Relacionamento N:1 com Diretor
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "diretor_id")
     private Diretor diretor;
 } 
